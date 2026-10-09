@@ -1,27 +1,66 @@
-# CursoAngularUnitTestingFormsRouting
+# Angular Testing
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.2.3.
+Ejemplos de **pruebas unitarias en Angular** con Jasmine y Karma, sobre una misma aplicación de práctica. Cubre servicios, componentes, directivas, pipes, formularios y rutas.
 
-## Development server
+Este repositorio reúne lo que antes estaba repartido en cuatro: `ng-testing-services`, `ng-testing-components`, `ng-testing-forms` y `ng-testing-routing`.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+## Qué se prueba y dónde
 
-## Code scaffolding
+| Tema | Técnicas | Dónde mirar |
+|---|---|---|
+| **Clases y funciones** | Matchers de Jasmine, casos límite | [`calculator.spec.ts`](src/app/calculator.spec.ts), [`person.spec.ts`](src/app/models/person.spec.ts) |
+| **Servicios** | Dependencias reales, falsas y con `SpyObj` | [`master.service.spec.ts`](src/app/services/master.service.spec.ts), [`value.service.spec.ts`](src/app/services/value.service.spec.ts) |
+| **Servicios HTTP** | `HttpClientTestingModule`, verificación de peticiones, errores e interceptores | [`product.service.spec.ts`](src/app/services/product.service.spec.ts), [`auth.service.spec.ts`](src/app/services/auth.service.spec.ts) |
+| **APIs del navegador** | Espías sobre `navigator.geolocation` | [`maps.service.spec.ts`](src/app/services/maps.service.spec.ts) |
+| **Componentes** | `@Input`, `@Output`, render, clics y componente anfitrión | [`person.component.spec.ts`](src/app/components/person/person.component.spec.ts), [`people.component.spec.ts`](src/app/components/people/people.component.spec.ts) |
+| **Componentes con servicios** | Observables y promesas simulados, `fakeAsync` y `tick` | [`products.component.spec.ts`](src/app/products/components/products/products.component.spec.ts) |
+| **Directivas y pipes** | Componente anfitrión, consulta por directiva | [`highlight.directive.spec.ts`](src/app/shared/directives/highlight.directive.spec.ts), [`reverse.pipe.spec.ts`](src/app/shared/pipes/reverse.pipe.spec.ts) |
+| **Formularios** | Validadores síncronos y asíncronos, llenado desde la UI, flujo de envío | [`register-form.component.spec.ts`](src/app/auth/components/register-form/register-form.component.spec.ts), [`validators.spec.ts`](src/app/utils/validators.spec.ts) |
+| **Rutas** | `ActivatedRoute` simulado, `Location`, `RouterLink` y guards | [`product-detail.component.spec.ts`](src/app/products/components/product-detail/product-detail.component.spec.ts), [`auth.guard.spec.ts`](src/app/guards/auth.guard.spec.ts), [`app.component.spec.ts`](src/app/app.component.spec.ts) |
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+En [`src/testing`](src/testing) hay funciones de ayuda reutilizables: buscar elementos, simular clics, llenar campos y crear observables o promesas simulados.
 
-## Build
+## Stack
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+- Angular 13 y TypeScript
+- Jasmine y Karma (Chrome Headless), con reporte de cobertura
+- `@faker-js/faker` para generar datos de prueba
+- ESLint
+- Pico CSS
 
-## Running unit tests
+## Cómo ejecutar
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+Requiere Node.js 14 o 16 (versiones más nuevas no son compatibles con Angular 13).
 
-## Running end-to-end tests
+```bash
+npm install
+```
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+Tests, una sola vez:
 
-## Further help
+```bash
+npx ng test --watch=false
+```
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+Tests con reporte de cobertura (queda en `coverage/angular-testing`):
+
+```bash
+npx ng test --watch=false --code-coverage
+```
+
+Aplicación en `http://localhost:4200`:
+
+```bash
+npm start
+```
+
+La aplicación usa la API pública [Platzi Fake Store](https://fakeapi.platzi.com/); los tests no hacen peticiones reales.
+
+## Scripts
+
+| Comando | Qué hace |
+|---|---|
+| `npm start` | Servidor de desarrollo |
+| `npm test` | Tests en modo observador |
+| `npm run lint` | ESLint |
+| `npm run build` | Compila para producción |

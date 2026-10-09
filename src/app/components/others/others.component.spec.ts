@@ -1,14 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { OthersComponent } from './others.component';
+import { FormsModule } from '@angular/forms';
 
-xdescribe('OthersComponent', () => {
+import { OthersComponent } from './others.component';
+import { SharedModule } from '../../shared/shared.module';
+
+describe('OthersComponent', () => {
   let component: OthersComponent;
   let fixture: ComponentFixture<OthersComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ OthersComponent ]
+      declarations: [ OthersComponent ],
+      // El template usa la directiva y el pipe de SharedModule, y ngModel
+      imports: [ SharedModule, FormsModule ]
     })
     .compileComponents();
   });
