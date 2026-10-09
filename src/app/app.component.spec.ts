@@ -1,8 +1,10 @@
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
+import { RouterLinkWithHref } from '@angular/router';
 import { AppComponent } from './app.component';
+import { query, queryAllByDirective } from '../testing';
 
-xdescribe('AppComponent', () => {
+describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
@@ -26,10 +28,19 @@ xdescribe('AppComponent', () => {
     expect(app.title).toEqual('ng-testing-services');
   });
 
-  it('should render title', () => {
+  it('should render the navigation links', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
-    const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('.content span')?.textContent).toContain('ng-testing-services app is running!');
+    const links = queryAllByDirective(fixture, RouterLinkWithHref)
+      .map(debugElement => debugElement.injector.get(RouterLinkWithHref).href);
+    expect(links).toEqual([
+      '/', '/auth/register', '/products', '/people', '/others', '/pico-preview', '/auth/login'
+    ]);
+  });
+
+  it('should render the router outlet', () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    fixture.detectChanges();
+    expect(query(fixture, 'router-outlet')).toBeTruthy();
   });
 });
